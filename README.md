@@ -1,2 +1,2 @@
-# pigeon-script
-Repository for the codegolfing language PigeonScript, a collaboration between several programmers
+# PigeonScript
+PigeonScript is/will be a turing-complete codegolfing language founded and developed by several programmers
