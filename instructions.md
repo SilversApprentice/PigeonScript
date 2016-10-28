@@ -28,9 +28,14 @@
 - `²` (1 input)
   - *int*: square the integer
   - *array*: apply the `²` operator to every element in the array.
-  - *ASCII-art*: rotate the ASCII
+  - *ASCII-art*: rotate the ASCII-art
 - `³` (1 input)
   - *int*: cube the integer
+  - *array*: apply the `³` operator to every element in the array.
+- `∑` (1 input)
+  - *int*: convert the int to a 1-character string which is the ASCII character corresponding to that integer.
+  - *array*: sum the array
+  - *ASCII-art*: convert the ASCII art into an array of arrays containing the ASCII-values of each character.
   
 ## Control Structures ##
 
