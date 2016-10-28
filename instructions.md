@@ -51,8 +51,8 @@
   - Take a value `t` from the top of the stack. If `t` is an int, this is equivalent to `for (var [name] = 0;
     n < t; n++) {...}`. If `t` is an array, this is equivalent to `foreach (t as [name]) {...}`.
 - `ƒ...;`
-  - Like `F`, but automatically uses the variable `n` for `[name]`. If `n` is already used, keep going
-    alphabetically until it finds an unused character. (`o`, `p`, ... `z`, `aa`, `ab`)
+  - Like `F`, but automatically uses the variable `e` for `[name]`. If `e` is already used, keep going
+    alphabetically until it finds an unused character. (`e`,`f`,`aa`,`ab`...`ff`,`aaa`)
 - `D[name]...;` (`[name]` is a variable name)
   - Pop a value `d`. `[name]` will loop through every possible value for a `d`-tuple of integers. Every combination
     must appear exactly once.
