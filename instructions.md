@@ -18,6 +18,9 @@
   - Input a string.
 - `ã` (0 inputs)
   - Input an ASCII-art.
+- `ń` (0 inputs)
+  - If the `ń` command has not been run before, input a value and push it onto the stack. Otherwise, push the input
+    onto the stack.
   
 ## Control Structures ##
 
@@ -32,8 +35,8 @@
   - Like `F`, but automatically uses the variable `n` for `[name]`. If `n` is already used, keep going
     alphabetically until it finds an unused character. (`o`, `p`, ... `z`, `aa`, `ab`)
 - `D[name]...;` (`[name]` is a variable name)
-  - `[name]` will loop through every possible value for an ordered pair of integers ((0,0), (0,1), (1,1), (1,0), (1,-1), ...)
-    as an array. This can be implemented however you like.
+  - Pop a value `d`. `[name]` will loop through every possible value for a `d`-tuple of integers. Every combination
+    must appear exactly once.
 - `∂...;`
   - `∂` is to `D` as `ƒ` is to `F`.
 - `I...;`
@@ -52,3 +55,5 @@
   - Terminate the program.
 - `ç`
   - Pop a value and break if the value on top of the stack is truthy.
+- `ɓ`
+  - Break if the top two stack values are equal.
