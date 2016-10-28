@@ -7,13 +7,13 @@
 - `[A-F]+` (1 input)
   - Store the value in that variable: `12,6` -> `12`
 - `+` (2 inputs)
-  - *int, int*: adds two integers: `1,1` -> `2`
-  - *array, array*: concantenates two arrays: `[1,2,3],[4,5,6]` -> `[1,2,3,4,5,6]`
-  - *ASCII-art, ASCII-art*: horizontally concatenates two ASCII-arts: `{"ab","cd"},{"12","34"}` -> `{"ab12","cd34"}`
+  - *int, int*: Adds two integers: `1,1` -> `2`
+  - *array, array*: Concantenates two arrays: `[1,2,3],[4,5,6]` -> `[1,2,3,4,5,6]`
+  - *ASCII-art, ASCII-art*: Horizontally concatenates two ASCII-arts: `{"ab","cd"},{"12","34"}` -> `{"ab12","cd34"}`
 - `±` (2 inputs)
-  - *int, int*: subtracts two integers: `3,1` -> `2`.
-  - *array, **: appends into the array: `[1,2],3` -> `[1,2,3]`
-  - *ASCII-art, ASCII-art*: vertically concatenates two ASCII-arts: `{"ab","cd"},{"12","34"}` -> `{"ab", "cd", "12", "34"}`
+  - *int, int*: Subtracts two integers: `3,1` -> `2`.
+  - *array, **: Appends into the array: `[1,2],3` -> `[1,2,3]`
+  - *ASCII-art, ASCII-art*: Vertically concatenates two ASCII-arts: `{"ab","cd"},{"12","34"}` -> `{"ab", "cd", "12", "34"}`
 - `n` (0 inputs)
   - Input an integer and push it onto the stack: `1,2` -> `1,2,3`
 - `N` (0 inputs)
@@ -30,16 +30,22 @@
 - `|` (0 inputs)
   - Skip to the next newline (used for comments).
 - `²` (1 input)
-  - *int*: square the integer: `3` -> `9`
-  - *array*: apply the `²` operator to every element in the array: `[1,2,3,4]` -> `[1,4,9,16]`
-  - *ASCII-art*: rotate the ASCII-art: `{"foo","bar","baz"}` -> `{"fbb","oaa","orz"}`
+  - *int*: Square the integer: `3` -> `9`
+  - *array*: Apply the `²` operator to every element in the array: `[1,2,3,4]` -> `[1,4,9,16]`
+  - *ASCII-art*: Rotate the ASCII-art: `{"foo","bar","baz"}` -> `{"fbb","oaa","orz"}`
 - `³` (1 input)
-  - *int*: cube the integer: `3` -> `27`
-  - *array*: apply the `³` operator to every element in the array: `[1,2,[3,2]]` -> `[1,8,[27,8]]`
+  - *int*: Cube the integer: `3` -> `27`
+  - *array*: Apply the `³` operator to every element in the array: `[1,2,[3,2]]` -> `[1,8,[27,8]]`
 - `∑` (1 input)
-  - *int*: yield an array with the numbers from 0 to n-1: `4` -> `[1,2,3,4]`
-  - *array*: sum the array: `[1,2,3]` -> `6` 
-  - *ASCII-art*: convert the ASCII art into an array of arrays containing the ASCII-values of each character: `{"foo","bar"}` -> `[[102,111,111],[98,97,114]]`
+  - *int*: Yield an array with the numbers from 0 to n-1: `4` -> `[1,2,3,4]`
+  - *array*: Sum the array: `[1,2,3]` -> `6` 
+  - *ASCII-art*: Convert the ASCII art into an array of arrays containing the ASCII-values of each character: `{"foo","bar"}` -> `[[102,111,111],[98,97,114]]`
+- `%` (2 inputs)
+  - *int, int*: Return (the bigger value) mod (the smaller value)
+- `!` (1 input)
+  - *int*: Return 1 if the top stack value is falsey, 0 otherwise: `5` -> `0`
+- `:` (1 input)
+  - Duplicate the value on top of the stack: 
   
 ## Control Structures ##
 
@@ -48,7 +54,7 @@
 - `u...;`
   - Until the top element on the stack has a truthy value
 - `F[name]...;` (`[name]` is a variable name)
-  - Take a value `t` from the top of the stack. If `t` is an int, this is equivalent to `for (var [name] = 0;
+  - Take a value `t` from the top of the stack. If `t` is an int, this is equivalent to `for (var [name] = 1;
     n < t; n++) {...}`. If `t` is an array, this is equivalent to `foreach (t as [name]) {...}`.
 - `ƒ...;`
   - Like `F`, but automatically uses the variable `e` for `[name]`. If `e` is already used, keep going
