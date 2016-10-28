@@ -11,16 +11,18 @@
   - *array, **: appends into the array: `[1,2],3` -> `[1,2,3]`
   - *ASCII-art, ASCII-art*: vertically concatenates two ASCII-arts: `{"ab","cd"},{"12","34"}` -> `{"ab", "cd", "12", "34"}`
 - `N` (0 inputs)
-  - Input an integer and push it onto the stack.
+  - Input an integer and push it onto the stack: `1,2` -> `1,2,3`
 - `Ñ` (0 inputs)
-  - Input a list of integers.
+  - Input a list of integers: `1,2` -> `1,2,[3,4,5]`
 - `ñ` (0 inputs)
-  - Input a string.
+  - Input a one-line ASCII art (a string): `{"spam","eggs"}` -> `{"spam","eggs"},{"foo"}`
 - `ã` (0 inputs)
-  - Input an ASCII-art.
+  - Input an ASCII-art: `1,2,3` -> `1,2,3,{"spam","eggs"}`
 - `ń` (0 inputs)
-  - If the `ń` command has not been run before, input a value and push it onto the stack. Otherwise, push the input
-    onto the stack.
+  - If the `ń` command has not been run before, input an integer and push it onto the stack. Otherwise, push the input
+    onto the stack: `1,2,3` -> `1,2,3,4` -> `1,2,3,4,4`
+- `|` (0 inputs)
+  - Skip to the next newline (used for comments).
   
 ## Control Structures ##
 
