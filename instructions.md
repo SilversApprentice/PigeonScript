@@ -21,8 +21,16 @@
 - `ń` (0 inputs)
   - If the `ń` command has not been run before, input an integer and push it onto the stack. Otherwise, push the input
     onto the stack: `1,2,3` -> `1,2,3,4` -> `1,2,3,4,4`
+- `Ń` (0 inputs)
+  - Read a string and push an array containing the ASCII-values of all the characters onto the stack.
 - `|` (0 inputs)
   - Skip to the next newline (used for comments).
+- `²` (1 input)
+  - *int*: square the integer
+  - *array*: apply the `²` operator to every element in the array.
+  - *ASCII-art*: rotate the ASCII
+- `³` (1 input)
+  - *int*: cube the integer
   
 ## Control Structures ##
 
