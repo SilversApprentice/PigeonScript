@@ -1,17 +1,19 @@
 
 # Parser for PigeonScript
 
-# 3∂e³∑33ɓ
+# 33Aw1Ɓ;i0;+
 # becomes
 # [
-#   ("pushnum", 3),
-#   ("control", "shortDimensionLoop", [
-#     ("pushvar","e"),
-#     ("instruction", "cube"),
-#     ("instruction", "sum"),
-#     ("pushnum", 33)
-#     ("control", "equalConditionalBreak")
-#   ])
+#   ("pushint", 33),
+#   ("setvar", "a"),
+#   ("control", "whileLoop", [
+#     ("pushint", 1)
+#     ("control", "break")
+#   ]),
+#   ("control", "if", [
+#     ("pushint", 0)
+#   ]),
+#   ("instruction", "add")
 # ]
 
 digits = list("0123456789")
