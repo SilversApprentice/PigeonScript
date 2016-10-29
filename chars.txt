@@ -1,3 +1,10 @@
+(This is the instruction list, defined in a more machine-readable
+format. The first character is the instruction, and the second
+word is what it will be defined as after it is parsed. The braces
+{} after control characters mean that instruction has a body.
+This file currently only has the minimal amount of characters to
+test it, and more should be added later.)
+
 INSTRUCTIONS
 + add
 ± altAdd
