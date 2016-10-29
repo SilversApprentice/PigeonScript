@@ -1,0 +1,8 @@
+INSTRUCTIONS
++ add
+± altAdd
+CONTROL
+w whileLoop {}
+u untilLoop {}
+i if {}
+Ɓ break
