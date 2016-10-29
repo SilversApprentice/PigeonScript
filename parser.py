@@ -1,19 +1,17 @@
 
 # Parser for PigeonScript
 
-# 33Aw1Ɓ;i0;+
+# 3∂e³∑33ɓ
 # becomes
 # [
-#   ("pushint", 33),
-#   ("setvar", "a"),
-#   ("control", "whileLoop", [
-#     ("pushint", 1)
-#     ("control", "break")
-#   ]),
-#   ("control", "if", [
-#     ("pushint", 0)
-#   ]),
-#   ("instruction", "add")
+#   ("pushnum", 3),
+#   ("control", "shortDimensionLoop", [
+#     ("pushvar","e"),
+#     ("instruction", "cube"),
+#     ("instruction", "sum"),
+#     ("pushnum", 33)
+#     ("control", "equalConditionalBreak")
+#   ])
 # ]
 
 digits = list("0123456789")
@@ -112,15 +110,20 @@ def parse(code): # a recursive function to parse code
 				# save this for later
 				char = c()
 				
-				# parse everything from here to the next semicolon (or EOF) as code
+				# parse everything from here to the next properly nested semicolon (or EOF) as code
 				innerCode = ""
 				
-				pointer += 1
-				while pointer < len(code) and c() != ";":
-					innerCode += c()
+				# keep track of how much it is nesting
+				nest = 1
+				while pointer + 1 < len(code) and (c() != ";" or nest > 0):
 					pointer += 1
+					innerCode += c()
+					if c() in control:
+						nest += 1
+					elif c() == ";":
+						nest -= 1
+				innerCode = innerCode.rstrip(";")
 					
-				pointer -= 1	
 				parsed.append(("control", control[char][0], parse(innerCode)))
 				
 			else:
