@@ -16,7 +16,7 @@
 
 digits = list("0123456789")
 get_var = list("abcdef")
-set_var = list("ABCDEF")
+set_var = list("abcdef")
 
 # parse the chars.txt file to get the list of instructions
 with open("chars.txt", "r") as f:
@@ -95,7 +95,7 @@ def parse(code): # a recursive function to parse code
 				pointer += 1
 				
 			pointer -= 1
-			parsed.append(("setvar", name.lower()))
+			parsed.append(("setvar", name))
 			
 		# parse this as an instruction
 		elif c() in instructions:
