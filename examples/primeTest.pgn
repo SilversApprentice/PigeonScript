@@ -1,11 +1,11 @@
 | a 10 byte primality tester (takes input and print 1 if the value is prime, 0 otherwise)
 
-B∑ƒ%U0t;;1
+bEƒ%U0t;;1
 
 | expanded:
 |
-|  B      | implicit input, store in b
-|  ∑      | yield all the numbers 1 through b
+|  b      | implicit input, store in b
+|  E      | yield all the numbers 1 through b
 |  ƒ      | for e in (all the numbers in that array):
 |    %    |   take b % e
 |    U    |   if it has a falsey value (0):
