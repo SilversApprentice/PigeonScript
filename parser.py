@@ -95,7 +95,7 @@ def parse(code): # a recursive function to parse code
 				pointer += 1
 				
 			pointer -= 1
-			parsed.append(("setvar", name))
+			parsed.append(("setvar", name.lower()))
 			
 		# parse this as an instruction
 		elif c() in instructions:
