@@ -25,7 +25,7 @@ with open("chars.txt", "r") as f:
 	
 	# the characters which are instructions
 	# ignore the first line, which is a title
-	instructionsRaw = linelist[1:linelist.index("CONTROL")]
+	instructionsRaw = linelist[linelist.index("INSTRUCTIONS") + 1:linelist.index("CONTROL")]
 	instructions = {}
 	
 	for i in instructionsRaw:
@@ -55,6 +55,7 @@ with open("chars.txt", "r") as f:
 def parse(code): # a recursive function to parse code
 	
 	pointer = 0
+	# get the current character
 	c = lambda: code[pointer]
 	parsed = []
 	
