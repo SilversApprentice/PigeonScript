@@ -89,7 +89,16 @@ def parse(code):
                 number += c()
                 pointer += 1
             pointer -= 1
-            parsed.append(("pushnum", float(number)))
+            parsed.append(("pushnum", toNum(number)))
+
+        if c() == '"':
+
+            string = ""
+
+            while pointer < len(code) and c != '"':
+                string += c()
+                pointer += 1
+            parsed.append(("pushstr", string.rstrip('"').lstrip('"')))
 
         elif c() in operations:
             parsed.append(("operation", operations[c()]))
@@ -126,11 +135,11 @@ code = input("Input expression: ")
 
 instructions = parse(code)
 
-print(instructions)
+print(instructions) # debugging purposes
 
 for i in instructions:
 
-    if i[0] == "pushnum":
+    if i[0] == "pushnum" or i [0] == "pushstr":
         stack.append(i[1])
 
     elif i[0] == "operation":
