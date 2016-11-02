@@ -41,6 +41,13 @@ def div():
     else:
         return 1 / pop()
 
+def exp():
+    if len(stack):
+        return math.pow(pop(), pop())
+    else:
+        a = pop()
+        return math.pow(a, a)
+
 def mod():
     a,b = pop(),pop()
     return b % a
@@ -80,11 +87,16 @@ def parse(code):
 
     return parsed
 
+# a dict of operations
+
 operations = {'+':add,
               '-':sub,
               '*':mult,
               '/':div,
+              '^':exp,
               '%':mod}
+
+# vars the user has access to
 
 scope = {'a':0,
          'b':0,
@@ -113,4 +125,4 @@ for i in instructions:
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
 
-print(str(stack))
+print(stack[-1])
