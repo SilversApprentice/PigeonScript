@@ -48,7 +48,7 @@ def mult():
     if len(stack) > 1:
         return pop() * pop()
     else:
-        return math.pow(pop(), 2))
+        return math.pow(pop(), 2)
 
 def div():
     if len(stack) > 1:
@@ -68,6 +68,11 @@ def exp():
 def mod():
     a,b = pop(),pop()
     return b % a
+
+def indice():
+    index = pop()
+    item = pop()
+    return item[index]
 
 # Parse the input into a list of instructions
 
@@ -98,12 +103,15 @@ def parse(code):
             while pointer < len(code):
                 string += c()
                 pointer += 1
-                if c() == '"':
+                if pointer >= len(code) or c() == '"':
                     break
             parsed.append(("pushstr", string.rstrip('"').lstrip('"')))
 
         elif c() in operations:
             parsed.append(("operation", operations[c()]))
+
+        elif c() in functions:
+            parsed.append(("function", functions[c()]))
 
         elif c() in set_var:
             parsed.append(("setvar", c().lower()))
@@ -124,6 +132,10 @@ operations = {'+':add,
               '^':exp,
               '%':mod}
 
+functions = {'~':indice}
+
+control = {} # tbc
+
 # vars the user has access to
 
 scope = {'a':0,
@@ -131,7 +143,7 @@ scope = {'a':0,
          'c':0,
          'd':0,
          'e':0,
-         'f':0}
+         'f':"Hello World"}
 
 code = input("Input expression: ")
 
@@ -144,7 +156,7 @@ for i in instructions:
     if i[0] == "pushnum" or i [0] == "pushstr":
         stack.append(i[1])
 
-    elif i[0] == "operation":
+    elif i[0] == "operation" or i[0] == "function":
         stack.append(i[1]())
 
     elif i[0] == "setvar":
