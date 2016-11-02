@@ -74,6 +74,9 @@ def indice():
     item = pop()
     return item[index]
 
+def length():
+    return len(pop())
+
 # Parse the input into a list of instructions
 
 def parse(code):
@@ -132,7 +135,8 @@ operations = {'+':add,
               '^':exp,
               '%':mod}
 
-functions = {'~':indice}
+functions = {'~':indice,
+             'l':length}
 
 control = {} # tbc
 
