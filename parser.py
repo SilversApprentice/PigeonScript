@@ -6,7 +6,7 @@ digits = list("0123456789")
 set_var = list("ABCDEF")
 get_var = list("abcdef")
 
-def toNum(data):
+def cast(data):
 
     # attempts to convert input from string to int/float.
 
@@ -14,12 +14,12 @@ def toNum(data):
         try:
             return float(data)
         except:
-            return data
+            return str(data)
     else:
         try:
             return int(data)
         except:
-            return data
+            return str(data)
 
 # Retrieve data from the stack
 # When the stack is empty, ask for input
@@ -28,7 +28,7 @@ def pop():
     if len(stack):
         return stack.pop()
     else:
-        return toNum(input("Value required: "))
+        return cast(input("Value required: "))
 
 # Define basic maths operations
 
@@ -89,15 +89,17 @@ def parse(code):
                 number += c()
                 pointer += 1
             pointer -= 1
-            parsed.append(("pushnum", toNum(number)))
+            parsed.append(("pushnum", cast(number)))
 
         if c() == '"':
 
             string = ""
 
-            while pointer < len(code) and c != '"':
+            while pointer < len(code):
                 string += c()
                 pointer += 1
+                if c() == '"':
+                    break
             parsed.append(("pushstr", string.rstrip('"').lstrip('"')))
 
         elif c() in operations:
