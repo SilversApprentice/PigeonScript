@@ -30,7 +30,7 @@ def pop():
     else:
         return cast(input("Value required: "))
 
-# Define basic maths operations
+# Define basic maths functions
 
 def add():
     if len(stack) > 1:
@@ -69,6 +69,8 @@ def mod():
     a,b = pop(),pop()
     return b % a
 
+# Various string nonreturn
+
 def indice():
     index = pop()
     item = pop()
@@ -76,6 +78,9 @@ def indice():
 
 def length():
     return len(pop())
+
+def prnt():
+    print(pop())
 
 # Parse the input into a list of instructions
 
@@ -110,11 +115,11 @@ def parse(code):
                     break
             parsed.append(("pushstr", string.rstrip('"').lstrip('"')))
 
-        elif c() in operations:
-            parsed.append(("operation", operations[c()]))
-
         elif c() in functions:
             parsed.append(("function", functions[c()]))
+
+        elif c() in nonreturn:
+            parsed.append(("nonreturn", nonreturn[c()]))
 
         elif c() in set_var:
             parsed.append(("setvar", c().lower()))
@@ -126,17 +131,18 @@ def parse(code):
 
     return parsed
 
-# a dict of operations
+# a dict of functions
 
-operations = {'+':add,
-              '-':sub,
-              '*':mult,
-              '/':div,
-              '^':exp,
-              '%':mod}
-
-functions = {'~':indice,
+functions = {'+':add,
+             '-':sub,
+             '*':mult,
+             '/':div,
+             '^':exp,
+             '%':mod,
+             '~':indice,
              'l':length}
+
+nonreturn = {'p':prnt}
 
 control = {} # tbc
 
@@ -160,8 +166,11 @@ for i in instructions:
     if i[0] == "pushnum" or i [0] == "pushstr":
         stack.append(i[1])
 
-    elif i[0] == "operation" or i[0] == "function":
+    elif i[0] == "function":
         stack.append(i[1]())
+
+    elif i[0] == "nonreturn":
+        i[1]()
 
     elif i[0] == "setvar":
         scope[i[1]] = pop()
@@ -171,4 +180,4 @@ for i in instructions:
 
     print(stack)
 
-print(stack[-1])
+if len(stack):print(stack[-1])
