@@ -33,61 +33,41 @@ def pop():
 # Define basic maths operations
 
 def add():
-    try:
-        if len(stack) > 1:return pop() + pop()
-        else:return pop() * 2
-    except:
-        if len(stack) > 1:return cast(pop()) + cast(pop())
-        else:return cast(pop()) * 2
-    
+    if len(stack) > 1:
+        return pop() + pop()
+    else:
+        return pop() * 2
+
 def sub():
-    try:
-        if len(stack) > 1:return -1 * (pop() - pop())
-        else:return -1 * pop()
-    except:
-        if len(stack) > 1:return -1 * (cast(pop()) - cast(pop()))
-        else:return -1 * cast(pop())
+    if len(stack) > 1:
+        return -1 * (pop() - pop())
+    else:
+        return -1 * pop()
 
 def mult():
-    try:
-        if len(stack) > 1:return pop() * pop()
-        else:return math.pow(pop(), 2)
-    except:
-        if len(stack) > 1:return cast(pop()) * cast(pop())
-        else:return math.pow(cast(pop()), 2)
+    if len(stack) > 1:
+        return pop() * pop()
+    else:
+        return math.pow(pop(), 2))
 
 def div():
-    try:
-        if len(stack) > 1:return 1 / (pop() / pop())
-        else:return 1 / pop()
-    except:
-        if len(stack) > 1:return 1 / (cast(pop()) / cast(pop()))
-        else:return 1 / cast(pop())
-    
+    if len(stack) > 1:
+        return 1 / (pop() / pop())
+    else:
+        return 1 / pop()
+
 def exp():
-    try:
-        if len(stack) > 1:
-            a = pop()
-            b = pop()
-            return math.pow(b, a)
-        else:
-            a = pop()
-            return math.pow(a, a)
-    except:
-        if len(stack) > 1:
-            a = cast(pop())
-            b = cast(pop())
-            return math.pow(b, a)
-        else:
-            a = cast(pop())
-            return math.pow(a, a)
+    if len(stack) > 1:
+        a = pop()
+        b = pop()
+        return math.pow(b, a)
+    else:
+        a = pop()
+        return math.pow(a, a)
+    
 def mod():
-    try:
-        a,b = pop(),pop()
-        return b % a
-    except:
-        a,b = cast(pop()),cast(pop())
-        return b % a
+    a,b = pop(),pop()
+    return b % a
 
 # Parse the input into a list of instructions
 
@@ -172,5 +152,7 @@ for i in instructions:
 
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
+
+    print(stack)
 
 print(stack[-1])
