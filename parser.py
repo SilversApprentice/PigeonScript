@@ -18,32 +18,34 @@ def pop():
 # Define basic maths operations
 
 def add():
-    if len(stack):
+    if len(stack) > 1:
         return pop() + pop()
     else:
         return pop() * 2
 
 def sub():
-    if len(stack):
+    if len(stack) > 1:
         return -1 * (pop() - pop())
     else:
         return -1 * pop()
 
 def mult():
-    if len(stack):
+    if len(stack) > 1:
         return pop() * pop()
     else:
         return math.pow(pop(), 2)
 
 def div():
-    if len(stack):
+    if len(stack) > 1:
         return 1 / (pop() / pop())
     else:
         return 1 / pop()
 
 def exp():
-    if len(stack):
-        return math.pow(pop(), pop())
+    if len(stack) > 1:
+        a = pop()
+        b = pop()
+        return math.pow(b, a)
     else:
         a = pop()
         return math.pow(a, a)
@@ -78,7 +80,7 @@ def parse(code):
             parsed.append(("operation", operations[c()]))
 
         elif c() in set_var:
-            parsed.append(("setvar", c()))
+            parsed.append(("setvar", c().lower()))
 
         elif c() in get_var:
             parsed.append(("getvar", c()))
@@ -120,7 +122,7 @@ for i in instructions:
         stack.append(i[1]())
 
     elif i[0] == "setvar":
-        scope[i[1].lower()] = pop()
+        scope[i[1]] = pop()
 
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
