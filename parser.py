@@ -33,41 +33,61 @@ def pop():
 # Define basic maths operations
 
 def add():
-    if len(stack) > 1:
-        return pop() + pop()
-    else:
-        return pop() * 2
-
+    try:
+        if len(stack) > 1:return pop() + pop()
+        else:return pop() * 2
+    except:
+        if len(stack) > 1:return cast(pop()) + cast(pop())
+        else:return cast(pop()) * 2
+    
 def sub():
-    if len(stack) > 1:
-        return -1 * (pop() - pop())
-    else:
-        return -1 * pop()
+    try:
+        if len(stack) > 1:return -1 * (pop() - pop())
+        else:return -1 * pop()
+    except:
+        if len(stack) > 1:return -1 * (cast(pop()) - cast(pop()))
+        else:return -1 * cast(pop())
 
 def mult():
-    if len(stack) > 1:
-        return pop() * pop()
-    else:
-        return math.pow(pop(), 2)
+    try:
+        if len(stack) > 1:return pop() * pop()
+        else:return math.pow(pop(), 2)
+    except:
+        if len(stack) > 1:return cast(pop()) * cast(pop())
+        else:return math.pow(cast(pop()), 2)
 
 def div():
-    if len(stack) > 1:
-        return 1 / (pop() / pop())
-    else:
-        return 1 / pop()
-
+    try:
+        if len(stack) > 1:return 1 / (pop() / pop())
+        else:return 1 / pop()
+    except:
+        if len(stack) > 1:return 1 / (cast(pop()) / cast(pop()))
+        else:return 1 / cast(pop())
+    
 def exp():
-    if len(stack) > 1:
-        a = pop()
-        b = pop()
-        return math.pow(b, a)
-    else:
-        a = pop()
-        return math.pow(a, a)
-
+    try:
+        if len(stack) > 1:
+            a = pop()
+            b = pop()
+            return math.pow(b, a)
+        else:
+            a = pop()
+            return math.pow(a, a)
+    except:
+        if len(stack) > 1:
+            a = cast(pop())
+            b = cast(pop())
+            return math.pow(b, a)
+        else:
+            a = cast(pop())
+            return math.pow(a, a)
 def mod():
-    a,b = pop(),pop()
-    return b % a
+    try:
+        a,b = pop(),pop()
+        return b % a
+    except:
+        a,b = cast(pop()),cast(pop())
+        return b % a
 
 # Parse the input into a list of instructions
 
