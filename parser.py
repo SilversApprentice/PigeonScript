@@ -6,6 +6,21 @@ digits = list("0123456789")
 set_var = list("ABCDEF")
 get_var = list("abcdef")
 
+def toNum(data):
+
+    # attempts to convert input from string to int/float.
+
+    if '.' in data:
+        try:
+            return float(data)
+        except:
+            return data
+    else:
+        try:
+            return int(data)
+        except:
+            return data
+
 # Retrieve data from the stack
 # When the stack is empty, ask for input
 
@@ -13,7 +28,7 @@ def pop():
     if len(stack):
         return stack.pop()
     else:
-        return float(input("Value required: "))
+        return toNum(input("Value required: "))
 
 # Define basic maths operations
 
