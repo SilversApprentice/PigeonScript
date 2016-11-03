@@ -87,6 +87,9 @@ def pshtoarr():
 
 # Boolean operators
 
+def equals():
+	return stack.pop() == stack.pop()
+
 def booland():
     return pop() and pop()
 
@@ -157,7 +160,11 @@ functions = {'+':add,
              '^':exp,
              '%':mod,
              '~':indice,
-             'l':length}
+             'l':length,
+			 '=':equals,
+			 '&':booland,
+             'o':boolor,
+             '!':boolnot}
 
 nonreturn = {'p':prnt,
              '|':pshtoarr}
@@ -165,10 +172,6 @@ nonreturn = {'p':prnt,
 constants = {'g':[],
              'H':True,
              'h':False}
-
-boolean_ops = {'&':booland,
-               'o':boolor,
-               '!':boolnot}
 
 control = {} # tbc
 
