@@ -82,6 +82,9 @@ def length():
 def prnt():
     print(pop())
 
+def pshtoarr():
+    to_append.append(pop())    
+
 # Parse the input into a list of instructions
 
 def parse(code):
@@ -145,13 +148,16 @@ functions = {'+':add,
              '~':indice,
              'l':length}
 
-nonreturn = {'p':prnt}
+nonreturn = {'p':prnt,
+             '|':pshtoarr}
 
 constants = {'g':[],
              'h':True,
              'i':False}
 
 control = {} # tbc
+
+to_append = []
 
 # vars the user has access to
 
@@ -182,11 +188,13 @@ for i in instructions:
     elif i[0] == "setvar":
         if isinstance(scope[i[1]], list):
             a = pop()
-            if isinstance(a, str):
+            if type(a) == str:
                 if "|" in a:
                     b = (a.split("|"))
                     for c in b:
                         scope[i[1]] += [c]
+                else:
+                    scope[i[1]] += [a]
         else:
             scope[i[1]] = pop()
 
