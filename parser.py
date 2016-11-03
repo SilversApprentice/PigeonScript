@@ -69,7 +69,7 @@ def mod():
     a,b = pop(),pop()
     return b % a
 
-# Various string nonreturn
+# Various string functions
 
 def indice():
     index = pop()
@@ -205,4 +205,4 @@ for i in instructions:
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
 
-    print(stack)
+    print(stack) # debugging purposes
