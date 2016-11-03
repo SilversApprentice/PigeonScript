@@ -158,6 +158,46 @@ def parse(code):
 
     return parsed
 
+def execute(code):
+
+    pointer = 0
+    c = lambda: code[pointer]
+
+    while pointer < len(code):
+
+        if c()[0] == "push":
+            stack.append(c()[1])
+
+        elif c()[0] == "function":
+            stack.append(c()[1]())
+
+        elif c()[0] == "nonreturn":
+            c()[1]()
+
+        elif c()[0] == "setvar":
+            if isinstance(scope[c()[1]], list):
+                a = pop()
+                if type(a) == str:
+                    if "|" in a:
+                        b = (a.split("|"))
+                        for d in b:
+                            scope[c()[1]] += [d]
+                    else:
+                        scope[c()[1]].append(a)
+                if type(a) == int or type(a) == float:
+                    for b in range(len(to_append)):
+                        scope[c()[1]] += [to_append.pop(0)]
+                    scope[c()[1]].append(a)
+            else:
+                scope[c()[1]] = pop()
+
+        elif c()[0] == "getvar":
+            stack.append(scope[c()[1]])
+        print(stack)
+        pointer += 1
+
+    if len(stack):print(stack[-1])
+
 # link functions to their characters
 
 digits = list("0123456789")
@@ -203,40 +243,5 @@ if code.count('"') % 2 == 1:
     code = '"' + code
 
 instructions = parse(code)
-
-##print(instructions) # debugging purposes
-
-for i in instructions:
-
-    if i[0] == "push":
-        stack.append(i[1])
-
-    elif i[0] == "function":
-        stack.append(i[1]())
-
-    elif i[0] == "nonreturn":
-        i[1]()
-
-    elif i[0] == "setvar":
-        if isinstance(scope[i[1]], list):
-            a = pop()
-            if type(a) == str:
-                if "|" in a:
-                    b = (a.split("|"))
-                    for c in b:
-                        scope[i[1]] += [c]
-                else:
-                    scope[i[1]].append(a)
-            if type(a) == int or type(a) == float:
-                for b in range(len(to_append)):
-                    scope[i[1]] += [to_append.pop(0)]
-                scope[i[1]].append(a)
-        else:
-            scope[i[1]] = pop()
-
-    elif i[0] == "getvar":
-        stack.append(scope[i[1]])
-
-    ##print(stack) # debugging purposes
-
-if len(stack):print(stack[-1])
+print(instructions)
+execute(instructions)
