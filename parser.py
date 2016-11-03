@@ -2,10 +2,6 @@ import math
 
 stack = []
 
-digits = list("0123456789")
-set_var = list("ABCDEF")
-get_var = list("abcdef")
-
 def cast(data):
 
     # attempts to convert input from string to int/float.
@@ -93,13 +89,13 @@ def pshtoarr():
 # Boolean operators
 
 def equals():
-	return int(pop() == pop())
+    return int(pop() == pop())
 
 def morethan():
-	return int(pop() > pop())
+    return int(pop() > pop())
 
 def lessthan():
-	return int(pop() < pop())
+    return int(pop() < pop())
 	
 def booland():
     return int(pop() and pop())
@@ -162,7 +158,11 @@ def parse(code):
 
     return parsed
 
-# a dict of functions
+# link functions to their characters
+
+digits = list("0123456789")
+set_var = list("ABCDEF")
+get_var = list("abcdef")
 
 functions = {'+':add,
              '-':sub,
@@ -195,7 +195,7 @@ scope = {'a':0,
          'c':0,
          'd':0,
          'e':0,
-         'f':"Hello World"}
+         'f':"Hello World"} # this makes the hello world program nice and short...
 
 code = input("Input expression: ")
 
@@ -238,3 +238,5 @@ for i in instructions:
         stack.append(scope[i[1]])
 
     ##print(stack) # debugging purposes
+
+if len(stack):print(stack[-1])
