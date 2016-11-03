@@ -102,7 +102,7 @@ def parse(code):
                 number += c()
                 pointer += 1
             pointer -= 1
-            parsed.append(("pushnum", cast(number)))
+            parsed.append(("push", cast(number)))
 
         if c() == '"':
 
@@ -113,7 +113,7 @@ def parse(code):
                 pointer += 1
                 if pointer >= len(code) or c() == '"':
                     break
-            parsed.append(("pushstr", string.rstrip('"').lstrip('"')))
+            parsed.append(("push", string.strip('"')))
 
         elif c() in functions:
             parsed.append(("function", functions[c()]))
@@ -126,6 +126,9 @@ def parse(code):
 
         elif c() in get_var:
             parsed.append(("getvar", c()))
+
+        elif c() in constants:
+            parsed.append(("push", constants[c()]))
             
         pointer += 1
 
@@ -143,6 +146,10 @@ functions = {'+':add,
              'l':length}
 
 nonreturn = {'p':prnt}
+
+constants = {'g':[],
+             'h':True,
+             'i':False}
 
 control = {} # tbc
 
@@ -163,7 +170,7 @@ print(instructions) # debugging purposes
 
 for i in instructions:
 
-    if i[0] == "pushnum" or i [0] == "pushstr":
+    if i[0] == "push":
         stack.append(i[1])
 
     elif i[0] == "function":
@@ -173,11 +180,17 @@ for i in instructions:
         i[1]()
 
     elif i[0] == "setvar":
-        scope[i[1]] = pop()
+        if isinstance(scope[i[1]], list):
+            a = pop()
+            if isinstance(a, str):
+                if "|" in a:
+                    b = (a.split("|"))
+                    for c in b:
+                        scope[i[1]] += [c]
+        else:
+            scope[i[1]] = pop()
 
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
 
     print(stack)
-
-if len(stack):print(stack[-1])
