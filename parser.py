@@ -199,9 +199,12 @@ scope = {'a':0,
 
 code = input("Input expression: ")
 
+if code.count('"') % 2 == 1:
+    code = '"' + code
+
 instructions = parse(code)
 
-print(instructions) # debugging purposes
+##print(instructions) # debugging purposes
 
 for i in instructions:
 
@@ -234,4 +237,4 @@ for i in instructions:
     elif i[0] == "getvar":
         stack.append(scope[i[1]])
 
-    print(stack) # debugging purposes
+    ##print(stack) # debugging purposes
