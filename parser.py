@@ -83,7 +83,18 @@ def prnt():
     print(pop())
 
 def pshtoarr():
-    to_append.append(pop())    
+    to_append.append(pop())
+
+# Boolean operators
+
+def booland():
+    return pop() and pop()
+
+def boolor():
+    return pop() or pop()
+
+def boolnot():
+    return not pop()
 
 # Parse the input into a list of instructions
 
@@ -154,6 +165,10 @@ nonreturn = {'p':prnt,
 constants = {'g':[],
              'H':True,
              'h':False}
+
+boolean_ops = {'&':booland,
+               'o':boolor,
+               '!':boolnot}
 
 control = {} # tbc
 
