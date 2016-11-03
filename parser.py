@@ -152,8 +152,8 @@ nonreturn = {'p':prnt,
              '|':pshtoarr}
 
 constants = {'g':[],
-             'h':True,
-             'i':False}
+             'H':True,
+             'h':False}
 
 control = {} # tbc
 
