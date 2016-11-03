@@ -93,22 +93,22 @@ def pshtoarr():
 # Boolean operators
 
 def equals():
-	return pop() == pop()
+	return int(pop() == pop())
 
 def morethan():
-	return pop() > pop()
+	return int(pop() > pop())
 
 def lessthan():
-	return pop() < pop()
+	return int(pop() < pop())
 	
 def booland():
-    return pop() and pop()
+    return int(pop() and pop())
 
 def boolor():
-    return pop() or pop()
+    return int(pop() or pop())
 
 def boolnot():
-    return not pop()
+    return int(not pop())
 
 # Parse the input into a list of instructions
 
@@ -172,19 +172,17 @@ functions = {'+':add,
              '%':mod,
              '~':indice,
              'l':length,
-			 '=':equals,
-			 '>':morethan,
-			 '<':lessthan,
-			 '&':booland,
+	     '=':equals,
+	     '>':morethan,
+	     '<':lessthan,
+	     '&':booland,
              'o':boolor,
              '!':boolnot}
 
 nonreturn = {'p':prnt,
              '|':pshtoarr}
 
-constants = {'g':[],
-             'H':True,
-             'h':False}
+constants = {'g':[]}
 
 control = {} # tbc
 
