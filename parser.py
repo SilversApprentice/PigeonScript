@@ -69,6 +69,11 @@ def mod():
     a,b = pop(),pop()
     return b % a
 
+def factorial():
+	i = 1
+	for n in range(pop(),1,-1):i*=n
+	return i
+	
 # Various string functions
 
 def indice():
@@ -88,8 +93,14 @@ def pshtoarr():
 # Boolean operators
 
 def equals():
-	return stack.pop() == stack.pop()
+	return pop() == pop()
 
+def morethan():
+	return pop() > pop()
+
+def lessthan():
+	return pop() < pop()
+	
 def booland():
     return pop() and pop()
 
@@ -162,6 +173,8 @@ functions = {'+':add,
              '~':indice,
              'l':length,
 			 '=':equals,
+			 '>':morethan,
+			 '<':lessthan,
 			 '&':booland,
              'o':boolor,
              '!':boolnot}
