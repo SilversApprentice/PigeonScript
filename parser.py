@@ -194,7 +194,11 @@ for i in instructions:
                     for c in b:
                         scope[i[1]] += [c]
                 else:
-                    scope[i[1]] += [a]
+                    scope[i[1]].append(a)
+            if type(a) == int or type(a) == float:
+                for b in range(len(to_append)):
+                    scope[i[1]] += [to_append.pop(0)]
+                scope[i[1]].append(a)
         else:
             scope[i[1]] = pop()
 
