@@ -4,8 +4,8 @@
 
 - `[a-f]` (0 inputs)
   - Push the value of the variable onto the stack: `12` -> `12,6`
-- `[value][a-f]` (1 input)
-  - Store the value in that variable: `12a` -> `a`
+- `[value][A-F]` (1 input)
+  - Store the value in that variable: `12A` -> `a`
 - `+` (2 inputs)
   - *int, int*: Adds two integers: `1,1` -> `2`
   - *array, array*: Concantenates two arrays: `[1,2,3],[4,5,6]` -> `[1,2,3,4,5,6]`
