@@ -163,13 +163,15 @@ def parse(code):
                 innerCode = ""
 
                 nest = 1
-                while pointer + 1 < len(code) and (c() != ";" or nest > 0):
+                while pointer + 1 < len(code) or (not c() == ";" or nest > 0):
                     pointer += 1
                     innerCode += c()
                     if c() in control:
                         nest += 1
                     elif c() == ";":
                         nest -= 1
+                    if c() == ';' and nest == 1:
+                        break
                 innerCode = innerCode.rstrip(";")
 
                 parsed.append(("control", control[char][0], parse(innerCode)))
@@ -217,7 +219,15 @@ def execute(code):
 
         elif c()[0] == "getvar":
             stack.append(scope[c()[1]])
-        ##print(stack)
+            
+        elif c()[0] == "control":
+            
+            if c()[1] == "if":
+                
+                if pop():
+                    execute(c()[2])
+                
+        print(stack)
         pointer += 1
 
     if len(stack):print(stack[-1])
@@ -263,7 +273,7 @@ scope = {'a':0,
          'e':0,
          'f':"Hello World"} # this makes the hello world program nice and short...
 
-code = input("Input expression: ")
+code = "1 1=i5B;5Aab+p"
 
 if code.count('"') % 2 == 1:
     code = '"' + code
