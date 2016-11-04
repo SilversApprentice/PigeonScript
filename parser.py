@@ -273,7 +273,7 @@ scope = {'a':0,
          'e':0,
          'f':"Hello World"} # this makes the hello world program nice and short...
 
-code = "1 1=i5B;5Aab+p"
+code = input("Input code: ")
 
 if code.count('"') % 2 == 1:
     code = '"' + code
