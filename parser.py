@@ -153,6 +153,30 @@ def parse(code):
 
         elif c() in constants:
             parsed.append(("push", constants[c()]))
+
+        elif c() in control:
+
+            if control[c()][1]:
+
+                char = c()
+
+                innerCode = ""
+
+                nest = 1
+                while pointer + 1 < len(code) and (c() != ";" or nest > 0):
+                    pointer += 1
+                    innerCode += c()
+                    if c() in control:
+                        nest += 1
+                    elif c() == ";":
+                        nest -= 1
+                innerCode = innerCode.rstrip(";")
+
+                parsed.append(("control", control[char][0], parse(innerCode)))
+
+            else:
+
+                parsed.append(("control", control[c()][0]))
             
         pointer += 1
 
@@ -193,7 +217,7 @@ def execute(code):
 
         elif c()[0] == "getvar":
             stack.append(scope[c()[1]])
-        print(stack)
+        ##print(stack)
         pointer += 1
 
     if len(stack):print(stack[-1])
@@ -224,7 +248,9 @@ nonreturn = {'p':prnt,
 
 constants = {'g':[]}
 
-control = {} # tbc
+control = {'i': ('if', True),
+           'w': ('whileLoop', True),
+           'B': ('break', False)} # tbc
 
 to_append = []
 
