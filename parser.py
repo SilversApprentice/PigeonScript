@@ -226,7 +226,12 @@ def execute(code):
                 if pop():execute(c()[2])
 
             elif c()[1] == "forLoop":
-                for n in range(pop()):execute(c()[2])
+                a = pop()
+
+                if type(a) == list or type(a) == str:
+                    for n in range(len(a)):execute(c()[2])
+                else:
+                    for n in range(a):execute(c()[2])
                 
         ##print(stack)
         pointer += 1
