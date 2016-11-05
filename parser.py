@@ -223,9 +223,10 @@ def execute(code):
         elif c()[0] == "control":
             
             if c()[1] == "if":
-                
-                if pop():
-                    execute(c()[2])
+                if pop():execute(c()[2])
+
+            elif c()[1] == "forLoop":
+                for n in range(pop()):execute(c()[2])
                 
         ##print(stack)
         pointer += 1
@@ -259,7 +260,8 @@ nonreturn = {'p':prnt,
 constants = {'g':[]}
 
 control = {'i': ('if', True),
-           'w': ('whileLoop', True)} # tbc
+           'w': ('whileLoop', True),
+           'y': ('forLoop', True)}
 
 to_append = []
 
