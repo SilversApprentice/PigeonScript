@@ -109,7 +109,7 @@ def boolnot():
 # Parse the input into a list of instructions
 
 def parse(code):
-
+    
     pointer = 0
 
     c = lambda: code[pointer]
@@ -163,16 +163,16 @@ def parse(code):
                 innerCode = ""
 
                 nest = 1
-                while pointer + 1 < len(code) or (not c() == ";" or nest > 0):
+                while pointer + 1 < len(code) or nest > 0:
                     pointer += 1
                     innerCode += c()
                     if c() in control:
                         nest += 1
                     elif c() == ";":
                         nest -= 1
-                    if c() == ';' and nest == 1:
-                        break
-                innerCode = innerCode.rstrip(";")
+                    if nest <= 0:break
+
+                innerCode = innerCode[0:-1]
 
                 parsed.append(("control", control[char][0], parse(innerCode)))
 
@@ -227,7 +227,7 @@ def execute(code):
                 if pop():
                     execute(c()[2])
                 
-        print(stack)
+        ##print(stack)
         pointer += 1
 
     if len(stack):print(stack[-1])
@@ -259,8 +259,7 @@ nonreturn = {'p':prnt,
 constants = {'g':[]}
 
 control = {'i': ('if', True),
-           'w': ('whileLoop', True),
-           'B': ('break', False)} # tbc
+           'w': ('whileLoop', True)} # tbc
 
 to_append = []
 
