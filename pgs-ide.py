@@ -90,6 +90,9 @@ class pgsIDEApp(tk.Tk):
         self.controller.saved_path = f.name
         f.close()
 
+    def quit(self):
+        self.destroy()
+
 class MainPage(tk.Frame):
 
     '''
@@ -130,7 +133,7 @@ class MainPage(tk.Frame):
         self.fileMenu.add_command(label="Save As", command=
                              lambda: self.controller.save_file(self.textArea.get(1.0,tk.END))
                              )
-        self.fileMenu.add_command(label="Quit", command=None)
+        self.fileMenu.add_command(label="Quit", command=self.controller.quit)
 
         # Create a 'run' menu
         self.runMenu = tk.Menu(self.menubar)
@@ -189,7 +192,7 @@ class RunPage(tk.Frame):
         self.fileMenu.add_command(label="Open", command=
                              lambda: self.controller.create_new(self.controller.open_file())
                              )
-        self.fileMenu.add_command(label="Quit", command=None)
+        self.fileMenu.add_command(label="Quit", command=self.controller.quit)
 
         # Create a 'debug' menu
         self.debugMenu = tk.Menu(self.menubar)
