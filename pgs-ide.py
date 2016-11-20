@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 import tkinter.filedialog as tkfd
 from pathlib2 import Path
-import pgs_parser
+import interpreter
 
 class pgsIDEApp(tk.Tk):
 
