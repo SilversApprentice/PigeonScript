@@ -242,7 +242,7 @@ def execute(code):
 def run(code):
 
     # link functions to their characters
-
+    global digits, set_var, get_var, functions, nonreturn, constants, control
     digits = list("0123456789")
     set_var = list("ABCDEF")
     get_var = list("abcdef")
@@ -284,6 +284,5 @@ def run(code):
 
     if code.count('"') % 2 == 1:
         code = '"' + code
-
     instructions = parse(code)
     execute(instructions)
