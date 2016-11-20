@@ -138,9 +138,14 @@ class MainPage(tk.Frame):
                             lambda: self.controller.show_frame(RunPage)
                             )
 
+        # Create a 'help' menu
+        self.helpMenu = tk.Menu(self.menubar)
+        self.helpMenu.add_command(label="PigeonScript Docs", command=None)
+
         # Add the file menu to the window
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
         self.menubar.add_cascade(label="Run", menu=self.runMenu)
+        self.menubar.add_cascade(label="Help", menu=self.helpMenu)
 
 class RunPage(tk.Frame):
 
