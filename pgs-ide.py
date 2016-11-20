@@ -66,6 +66,30 @@ class pgsIDEApp(tk.Tk):
         newApp = pgsIDEApp(content)
         newApp.mainloop()
 
+    def open_file(self):
+        opennm = tkfd.askopenfile()
+        if not opennm == None:
+            f = Path(opennm.name).read_text()
+            self.has_saved = True
+            self.saved_path = opennm.name
+            return f
+        else:
+            return ""
+
+    def save_file(self, data, overwrite=False):
+
+        if overwrite and self.controller.has_saved:
+            f = open(self.controller.saved_path, 'w')        
+        else:
+            f = tkfd.asksaveasfile(mode="w")
+        if f is None:
+            # If dialogue was closed by the 'cancel'
+            return
+        f.write(data)
+        self.controller.has_saved = True
+        self.controller.saved_path = f.name
+        f.close()
+
 class MainPage(tk.Frame):
 
     '''
@@ -98,13 +122,13 @@ class MainPage(tk.Frame):
         self.fileMenu = tk.Menu(self.menubar)
         self.fileMenu.add_command(label="New", command=self.controller.create_new)
         self.fileMenu.add_command(label="Open", command=
-                             lambda: self.controller.create_new(self.open_file())
+                             lambda: self.controller.create_new(self.controller.open_file())
                              )
         self.fileMenu.add_command(label="Save", command=
-                             lambda: self.save_file(self.textArea.get(1.0,tk.END),True)
+                             lambda: self.controller.save_file(self.textArea.get(1.0,tk.END),True)
                              )
         self.fileMenu.add_command(label="Save As", command=
-                             lambda: self.save_file(self.textArea.get(1.0,tk.END))
+                             lambda: self.controller.save_file(self.textArea.get(1.0,tk.END))
                              )
         self.fileMenu.add_command(label="Quit", command=None)
 
@@ -117,30 +141,6 @@ class MainPage(tk.Frame):
         # Add the file menu to the window
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
         self.menubar.add_cascade(label="Run", menu=self.runMenu)
-
-    def open_file(self):
-        opennm = tkfd.askopenfile()
-        if not opennm == None:
-            f = Path(opennm.name).read_text()
-            self.controller.has_saved = True
-            self.controller.saved_path = opennm.name
-            return f
-        else:
-            return ""
-
-    def save_file(self, data, overwrite=False):
-
-        if overwrite and self.controller.has_saved:
-            f = open(self.controller.saved_path, 'w')        
-        else:
-            f = tkfd.asksaveasfile(mode="w")
-        if f is None:
-            # If dialogue was closed by the 'cancel'
-            return
-        f.write(data)
-        self.controller.has_saved = True
-        self.controller.saved_path = f.name
-        f.close()
 
 class RunPage(tk.Frame):
 
@@ -182,7 +182,7 @@ class RunPage(tk.Frame):
         self.fileMenu = tk.Menu(self.menubar)
         self.fileMenu.add_command(label="New", command=self.controller.create_new)
         self.fileMenu.add_command(label="Open", command=
-                             lambda: self.controller.create_new(self.open_file())
+                             lambda: self.controller.create_new(self.controller.open_file())
                              )
         self.fileMenu.add_command(label="Quit", command=None)
 
@@ -200,16 +200,6 @@ class RunPage(tk.Frame):
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
         self.menubar.add_cascade(label="Debug", menu=self.debugMenu)
         self.menubar.add_cascade(label="Window", menu=self.windowMenu) 
-
-    def open_file(self):
-        opennm = tkfd.askopenfile()
-        if not opennm == None:
-            f = Path(opennm.name).read_text()
-            self.controller.has_saved = True
-            self.controller.saved_path = opennm.name
-            return f
-        else:
-            return ""
     
 app = pgsIDEApp()
 app.mainloop()
