@@ -1,5 +1,10 @@
 ''' This is all functions used in PigeonScript for operations, functions, parsing and execution. '''
 
+import math
+
+global stack
+stack = []
+
 def cast(data):
 
     # attempts to convert input from string to int/float.
@@ -103,6 +108,47 @@ def boolor():
 
 def boolnot():
     return int(not pop())
+
+# link functions to their characters
+global digits, set_var, get_var, functions, nonreturn, constants, control
+digits = list("0123456789")
+set_var = list("ABCDEF")
+get_var = list("abcdef")
+
+functions = {'+':add,
+             '-':sub,
+             '*':mult,
+             '/':div,
+             '^':exp,
+             '%':mod,
+             '~':indice,
+             'l':length,
+             '=':equals,
+             '>':morethan,
+             '<':lessthan,
+             '&':booland,
+             'o':boolor,
+             '!':boolnot}
+
+nonreturn = {'p':prnt,
+             '|':pshtoarr}
+
+constants = {'g':[]}
+
+control = {'i': ('if', True),
+           'w': ('whileLoop', True),
+           'y': ('forLoop', True)}
+
+to_append = []
+
+# vars the user has access to
+
+scope = {'a':0,
+         'b':0,
+         'c':0,
+         'd':0,
+         'e':0,
+         'f':"Hello World"} # this makes the hello world program nice and short...
 
 # Parse the input into a list of instructions
 
