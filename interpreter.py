@@ -66,7 +66,6 @@ class RunPage(tk.Frame):
     def prnt(self):
         # This needs to be in this file since it outputs to the console
         a=pop()
-        print(a)
         self.outBox.insert(tk.END, a) # WIP
     
     def parse(self, code):
@@ -156,10 +155,10 @@ class RunPage(tk.Frame):
                 stack.append(c()[1])
 
             elif c()[0] == "function":
-                stack.append(c()[1]())
+                stack.append(c()[1][0]())
 
             elif c()[0] == "nonreturn":
-                c()[1]()
+                c()[1][0]()
 
             elif c()[0] == "setvar":
                 if isinstance(scope[c()[1]], list):
@@ -201,28 +200,28 @@ class RunPage(tk.Frame):
     def run(self, code):
         
         # link functions to their characters
-        global digits, set_var, get_var, functions, nonreturn, constants, control
+        global digits, set_var, get_var, functions, nonreturn, constants, control, scope
         digits = list("0123456789")
         set_var = list("ABCDEF")
         get_var = list("abcdef")
 
-        functions = {'+':add,
-                     '-':sub,
-                     '*':mult,
-                     '/':div,
-                     '^':exp,
-                     '%':mod,
-                     '~':indice,
-                     'l':length,
-                     '=':equals,
-                     '>':morethan,
-                     '<':lessthan,
-                     '&':booland,
-                     'o':boolor,
-                     '!':boolnot}
+        functions = {'+':(add,"add"),
+                     '-':(sub,"sub"),
+                     '*':(mult,"mult"),
+                     '/':(div,"div"),
+                     '^':(exp,"exp"),
+                     '%':(mod,"mod"),
+                     '~':(indice,"indice"),
+                     'l':(length,"length"),
+                     '=':(equals,"equals"),
+                     '>':(morethan,"morethan"),
+                     '<':(lessthan,"lessthan"),
+                     '&':(booland,"and"),
+                     'o':(boolor,"or"),
+                     '!':(boolnot,"not")}
 
-        nonreturn = {'p':self.prnt,
-                     '|':pshtoarr}
+        nonreturn = {'p':(self.prnt,"print"),
+                     '|':(pshtoarr,"pushToArray")}
 
         constants = {'g':[]}
 
@@ -246,11 +245,23 @@ class RunPage(tk.Frame):
         self.instructions = self.parse(code)
         self.execute(self.instructions)
 
+    def format_instructions(self, instructions):
+        new_instructs = []
+
+        for n in instructions:
+            if n[0] == 'function' or n[0] == 'nonreturn':
+                new_instructs += [('function', n[1][1])]
+            else:
+                new_instructs += [n] 
+
+        return new_instructs
+        
     def show_parsed(self):
         w = tk.Toplevel()
         w.title("Parsed Code")
+        w.geometry('400x300')
 
-        msg = tk.Message(w, text=self.instructions)
+        msg = tk.Message(w, text=self.format_instructions(self.instructions))
         msg.pack()
 
         button = ttk.Button(w, text="Dismiss", command=w.destroy)
