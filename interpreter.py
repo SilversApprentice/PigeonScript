@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter.scrolledtext import ScrolledText
 
 from pgs_funcs import *
@@ -49,7 +50,7 @@ class RunPage(tk.Frame):
 
         # Create a 'debug' menu
         self.debugMenu = tk.Menu(self.menuBar)
-        self.debugMenu.add_command(label="Quit", command=None)
+        self.debugMenu.add_command(label="Show Parsed Code", command=self.show_parsed)
 
         # Create a 'window' menu
         self.windowMenu = tk.Menu(self.menuBar)
@@ -242,5 +243,15 @@ class RunPage(tk.Frame):
 
         if code.count('"') % 2 == 1:
             code = '"' + code # implicit opening brackets
-        instructions = self.parse(code)
-        self.execute(instructions)
+        self.instructions = self.parse(code)
+        self.execute(self.instructions)
+
+    def show_parsed(self):
+        w = tk.Toplevel()
+        w.title("Parsed Code")
+
+        msg = tk.Message(w, text=self.instructions)
+        msg.pack()
+
+        button = ttk.Button(w, text="Dismiss", command=w.destroy)
+        button.pack()
