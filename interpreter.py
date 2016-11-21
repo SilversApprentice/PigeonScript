@@ -1,5 +1,6 @@
 import math
 
+global stack
 stack = []
 
 def cast(data):
@@ -238,52 +239,50 @@ def execute(code):
 
     if len(stack):print(stack[-1])
 
-# link functions to their characters
+def run(code):
 
-digits = list("0123456789")
-set_var = list("ABCDEF")
-get_var = list("abcdef")
+    # link functions to their characters
+    global digits, set_var, get_var, functions, nonreturn, constants, control
+    digits = list("0123456789")
+    set_var = list("ABCDEF")
+    get_var = list("abcdef")
 
-functions = {'+':add,
-             '-':sub,
-             '*':mult,
-             '/':div,
-             '^':exp,
-             '%':mod,
-             '~':indice,
-             'l':length,
-	     '=':equals,
-	     '>':morethan,
-	     '<':lessthan,
-	     '&':booland,
-             'o':boolor,
-             '!':boolnot}
+    functions = {'+':add,
+                 '-':sub,
+                 '*':mult,
+                 '/':div,
+                 '^':exp,
+                 '%':mod,
+                 '~':indice,
+                 'l':length,
+                 '=':equals,
+                 '>':morethan,
+                 '<':lessthan,
+                 '&':booland,
+                 'o':boolor,
+                 '!':boolnot}
 
-nonreturn = {'p':prnt,
-             '|':pshtoarr}
+    nonreturn = {'p':prnt,
+                 '|':pshtoarr}
 
-constants = {'g':[]}
+    constants = {'g':[]}
 
-control = {'i': ('if', True),
-           'w': ('whileLoop', True),
-           'y': ('forLoop', True)}
+    control = {'i': ('if', True),
+               'w': ('whileLoop', True),
+               'y': ('forLoop', True)}
 
-to_append = []
+    to_append = []
 
-# vars the user has access to
+    # vars the user has access to
 
-scope = {'a':0,
-         'b':0,
-         'c':0,
-         'd':0,
-         'e':0,
-         'f':"Hello World"} # this makes the hello world program nice and short...
+    scope = {'a':0,
+             'b':0,
+             'c':0,
+             'd':0,
+             'e':0,
+             'f':"Hello World"} # this makes the hello world program nice and short...
 
-code = input("Input code: ")
-
-if code.count('"') % 2 == 1:
-    code = '"' + code
-
-instructions = parse(code)
-print(instructions)
-execute(instructions)
+    if code.count('"') % 2 == 1:
+        code = '"' + code
+    instructions = parse(code)
+    execute(instructions)
