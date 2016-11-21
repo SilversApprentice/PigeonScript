@@ -1,288 +1,268 @@
-import math
+import tkinter as tk
+from tkinter import ttk
+from tkinter.scrolledtext import ScrolledText
 
-global stack
-stack = []
+from pgs_funcs import *
 
-def cast(data):
+class RunPage(tk.Frame):
 
-    # attempts to convert input from string to int/float.
+    '''
+    This is all content on the RunPage
+    '''
 
-    if '.' in data:
-        try:
-            return float(data)
-        except:
-            return str(data)
-    else:
-        try:
-            return int(data)
-        except:
-            return str(data)
+    def __init__(self, parent, controller):
 
-# Retrieve data from the stack
-# When the stack is empty, ask for input
+        ''' Constructor '''
 
-def pop():
-    if len(stack):
-        return stack.pop()
-    else:
-        return cast(input("Value required: "))
+        # Call the parents constructor
+        tk.Frame.__init__(self, parent)
 
-# Define basic maths functions
+        self.parent = parent
+        self.controller = controller
 
-def add():
-    if len(stack) > 1:
-        return pop() + pop()
-    else:
-        return pop() * 2
+        self.name = "RunPage"
+        
+        # Add the content
 
-def sub():
-    if len(stack) > 1:
-        return -1 * (pop() - pop())
-    else:
-        return -1 * pop()
+        # Create an output text box
+        self.outBox = ScrolledText(self)
+        self.outBox.pack(side="top")
 
-def mult():
-    if len(stack) > 1:
-        return pop() * pop()
-    else:
-        return math.pow(pop(), 2)
+        # Just a label
+        self.errorBoxLabel = tk.Label(self, text="Error Messages:")
+        self.errorBoxLabel.pack()
 
-def div():
-    if len(stack) > 1:
-        return 1 / (pop() / pop())
-    else:
-        return 1 / pop()
+        # Create an error box
+        self.errorBox = ScrolledText(self)
+        self.errorBox.pack(side="top")
 
-def exp():
-    if len(stack) > 1:
-        a = pop()
-        b = pop()
-        return math.pow(b, a)
-    else:
-        a = pop()
-        return math.pow(a, a)
+        # Create the menu
+        self.menuBar = tk.Menu(self.controller)
+        self.set_menubar = lambda: self.controller.config(menu=self.menuBar)
+
+        # Create a 'file' menu
+        self.fileMenu = tk.Menu(self.menuBar)
+        self.fileMenu.add_command(label="New", command=self.controller.create_new)
+        self.fileMenu.add_command(label="Open", command=
+                                  lambda: self.controller.create_new(self.controller.open_file())
+                                  )
+        self.fileMenu.add_command(label="Quit", command=self.controller.quit)
+
+        # Create a 'debug' menu
+        self.debugMenu = tk.Menu(self.menuBar)
+        self.debugMenu.add_command(label="Show Parsed Code", command=self.show_parsed)
+
+        # Create a 'window' menu
+        self.windowMenu = tk.Menu(self.menuBar)
+        self.windowMenu.add_command(label="Return to Editor", command=
+                                    lambda: self.controller.show_frame("MainPage")
+                                    )
+
+        # Add the menus to the window
+        self.menuBar.add_cascade(label="File", menu=self.fileMenu)
+        self.menuBar.add_cascade(label="Debug", menu=self.debugMenu)
+        self.menuBar.add_cascade(label="Window", menu=self.windowMenu)
+
+    def prnt(self):
+        # This needs to be in this file since it outputs to the console
+        a=pop()
+        self.outBox.insert(tk.END, a) # WIP
     
-def mod():
-    a,b = pop(),pop()
-    return b % a
-
-def factorial():
-	i = 1
-	for n in range(pop(),1,-1):i*=n
-	return i
-	
-# Various string functions
-
-def indice():
-    index = pop()
-    item = pop()
-    return item[index]
-
-def length():
-    return len(pop())
-
-def prnt():
-    print(pop())
-
-def pshtoarr():
-    to_append.append(pop())
-
-# Boolean operators
-
-def equals():
-    return int(pop() == pop())
-
-def morethan():
-    return int(pop() > pop())
-
-def lessthan():
-    return int(pop() < pop())
-	
-def booland():
-    return int(pop() and pop())
-
-def boolor():
-    return int(pop() or pop())
-
-def boolnot():
-    return int(not pop())
-
-# Parse the input into a list of instructions
-
-def parse(code):
+    def parse(self, code):
     
-    pointer = 0
+        pointer = 0
 
-    c = lambda: code[pointer]
+        c = lambda: code[pointer]
 
-    parsed = []
+        parsed = []
 
-    while pointer < len(code):
+        while pointer < len(code):
 
-        if c() in digits:
+            if c() in digits:
 
-            number = ""
+                number = ""
 
-            while pointer < len(code) and (c() in digits or (c() == '.' and '.' not in number)):
-                number += c()
-                pointer += 1
-            pointer -= 1
-            parsed.append(("push", cast(number)))
-
-        if c() == '"':
-
-            string = ""
-
-            while pointer < len(code):
-                string += c()
-                pointer += 1
-                if pointer >= len(code) or c() == '"':
-                    break
-            parsed.append(("push", string.strip('"')))
-
-        elif c() in functions:
-            parsed.append(("function", functions[c()]))
-
-        elif c() in nonreturn:
-            parsed.append(("nonreturn", nonreturn[c()]))
-
-        elif c() in set_var:
-            parsed.append(("setvar", c().lower()))
-
-        elif c() in get_var:
-            parsed.append(("getvar", c()))
-
-        elif c() in constants:
-            parsed.append(("push", constants[c()]))
-
-        elif c() in control:
-
-            if control[c()][1]:
-
-                char = c()
-
-                innerCode = ""
-
-                nest = 1
-                while pointer + 1 < len(code) or nest > 0:
+                while pointer < len(code) and (c() in digits or (c() == '.' and '.' not in number)):
+                    number += c()
                     pointer += 1
-                    innerCode += c()
-                    if c() in control:
-                        nest += 1
-                    elif c() == ";":
-                        nest -= 1
-                    if nest <= 0:break
+                pointer -= 1
+                parsed.append(("push", cast(number)))
 
-                innerCode = innerCode[0:-1]
+            if c() == '"':
 
-                parsed.append(("control", control[char][0], parse(innerCode)))
+                string = ""
 
-            else:
+                while pointer < len(code):
+                    string += c()
+                    pointer += 1
+                    if pointer >= len(code) or c() == '"':
+                        break
+                parsed.append(("push", string.strip('"')))
 
-                parsed.append(("control", control[c()][0]))
-            
-        pointer += 1
+            elif c() in functions:
+                parsed.append(("function", functions[c()]))
 
-    return parsed
+            elif c() in nonreturn:
+                parsed.append(("nonreturn", nonreturn[c()]))
 
-def execute(code):
+            elif c() in set_var:
+                parsed.append(("setvar", c().lower()))
 
-    pointer = 0
-    c = lambda: code[pointer]
+            elif c() in get_var:
+                parsed.append(("getvar", c()))
 
-    while pointer < len(code):
+            elif c() in constants:
+                parsed.append(("push", constants[c()]))
 
-        if c()[0] == "push":
-            stack.append(c()[1])
+            elif c() in control:
 
-        elif c()[0] == "function":
-            stack.append(c()[1]())
+                if control[c()][1]:
 
-        elif c()[0] == "nonreturn":
-            c()[1]()
+                    char = c()
 
-        elif c()[0] == "setvar":
-            if isinstance(scope[c()[1]], list):
-                a = pop()
-                if type(a) == str:
-                    if "|" in a:
-                        b = (a.split("|"))
-                        for d in b:
-                            scope[c()[1]] += [d]
-                    else:
-                        scope[c()[1]].append(a)
-                if type(a) == int or type(a) == float:
-                    for b in range(len(to_append)):
-                        scope[c()[1]] += [to_append.pop(0)]
-                    scope[c()[1]].append(a)
-            else:
-                scope[c()[1]] = pop()
+                    innerCode = ""
 
-        elif c()[0] == "getvar":
-            stack.append(scope[c()[1]])
-            
-        elif c()[0] == "control":
-            
-            if c()[1] == "if":
-                if pop():execute(c()[2])
+                    nest = 1
+                    while pointer + 1 < len(code) or nest > 0:
+                        pointer += 1
+                        innerCode += c()
+                        if c() in control:
+                            nest += 1
+                        elif c() == ";":
+                            nest -= 1
+                        if nest <= 0:break
 
-            elif c()[1] == "forLoop":
-                a = pop()
+                    innerCode = innerCode[0:-1]
 
-                if type(a) == list or type(a) == str:
-                    for n in range(len(a)):execute(c()[2])
+                    parsed.append(("control", control[char][0], parse(innerCode)))
+
                 else:
-                    for n in range(a):execute(c()[2])
+
+                    parsed.append(("control", control[c()][0]))
                 
-        ##print(stack)
-        pointer += 1
+            pointer += 1
 
-    if len(stack):print(stack[-1])
+        return parsed
 
-def run(code):
+    def execute(self, code):
 
-    # link functions to their characters
-    global digits, set_var, get_var, functions, nonreturn, constants, control
-    digits = list("0123456789")
-    set_var = list("ABCDEF")
-    get_var = list("abcdef")
+        pointer = 0
+        c = lambda: code[pointer]
 
-    functions = {'+':add,
-                 '-':sub,
-                 '*':mult,
-                 '/':div,
-                 '^':exp,
-                 '%':mod,
-                 '~':indice,
-                 'l':length,
-                 '=':equals,
-                 '>':morethan,
-                 '<':lessthan,
-                 '&':booland,
-                 'o':boolor,
-                 '!':boolnot}
+        while pointer < len(code):
 
-    nonreturn = {'p':prnt,
-                 '|':pshtoarr}
+            if c()[0] == "push":
+                stack.append(c()[1])
 
-    constants = {'g':[]}
+            elif c()[0] == "function":
+                stack.append(c()[1][0]())
 
-    control = {'i': ('if', True),
-               'w': ('whileLoop', True),
-               'y': ('forLoop', True)}
+            elif c()[0] == "nonreturn":
+                c()[1][0]()
 
-    to_append = []
+            elif c()[0] == "setvar":
+                if isinstance(scope[c()[1]], list):
+                    a = pop()
+                    if type(a) == str:
+                        if "|" in a:
+                            b = (a.split("|"))
+                            for d in b:
+                                scope[c()[1]] += [d]
+                        else:
+                            scope[c()[1]].append(a)
+                    if type(a) == int or type(a) == float:
+                        for b in range(len(to_append)):
+                            scope[c()[1]] += [to_append.pop(0)]
+                        scope[c()[1]].append(a)
+                else:
+                    scope[c()[1]] = pop()
 
-    # vars the user has access to
+            elif c()[0] == "getvar":
+                stack.append(scope[c()[1]])
+                
+            elif c()[0] == "control":
+                
+                if c()[1] == "if":
+                    if pop():execute(c()[2])
 
-    scope = {'a':0,
-             'b':0,
-             'c':0,
-             'd':0,
-             'e':0,
-             'f':"Hello World"} # this makes the hello world program nice and short...
+                elif c()[1] == "forLoop":
+                    a = pop()
 
-    if code.count('"') % 2 == 1:
-        code = '"' + code
-    instructions = parse(code)
-    execute(instructions)
+                    if type(a) == list or type(a) == str:
+                        for n in range(len(a)):execute(c()[2])
+                    else:
+                        for n in range(a):execute(c()[2])
+                    
+            pointer += 1
+
+        if len(stack):self.outBox.insert("1.0", stack[-1])
+    
+    def run(self, code):
+        
+        # link functions to their characters
+        global digits, set_var, get_var, functions, nonreturn, constants, control, scope
+        digits = list("0123456789")
+        set_var = list("ABCDEF")
+        get_var = list("abcdef")
+
+        functions = {'+':(add,"add"),
+                     '-':(sub,"sub"),
+                     '*':(mult,"mult"),
+                     '/':(div,"div"),
+                     '^':(exp,"exp"),
+                     '%':(mod,"mod"),
+                     '~':(indice,"indice"),
+                     'l':(length,"length"),
+                     '=':(equals,"equals"),
+                     '>':(morethan,"morethan"),
+                     '<':(lessthan,"lessthan"),
+                     '&':(booland,"and"),
+                     'o':(boolor,"or"),
+                     '!':(boolnot,"not")}
+
+        nonreturn = {'p':(self.prnt,"print"),
+                     '|':(pshtoarr,"pushToArray")}
+
+        constants = {'g':[]}
+
+        control = {'i': ('if', True),
+                   'w': ('whileLoop', True),
+                   'y': ('forLoop', True)}
+
+        to_append = []
+
+        # vars the user has access to
+
+        scope = {'a':0,
+                 'b':0,
+                 'c':0,
+                 'd':0,
+                 'e':0,
+                 'f':"Hello World"} # this makes the hello world program nice and short...
+
+        if code.count('"') % 2 == 1:
+            code = '"' + code # implicit opening brackets
+        self.instructions = self.parse(code)
+        self.execute(self.instructions)
+
+    def format_instructions(self, instructions):
+        new_instructs = []
+
+        for n in instructions:
+            if n[0] == 'function' or n[0] == 'nonreturn':
+                new_instructs += [('function', n[1][1])]
+            else:
+                new_instructs += [n] 
+
+        return new_instructs
+        
+    def show_parsed(self):
+        w = tk.Toplevel()
+        w.title("Parsed Code")
+        w.geometry('400x300')
+
+        msg = tk.Message(w, text=self.format_instructions(self.instructions))
+        msg.pack()
+
+        button = ttk.Button(w, text="Dismiss", command=w.destroy)
+        button.pack()
