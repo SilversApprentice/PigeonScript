@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 import tkinter.filedialog as tkfd
 from pathlib2 import Path
-import interpreter
+from interpreter import RunPage
 
 class pgsIDEApp(tk.Tk):
 
@@ -41,16 +41,19 @@ class pgsIDEApp(tk.Tk):
 
         # Create a dictionary of frames and append all pages to it
         self.frames = {}
-
-        for f in (MainPage, RunPage):
             
-            frame = f(self.container, self)
-            self.frames[f] = frame
+        frame = MainPage(self.container, self)
+        self.frames["MainPage"] = frame
 
-            frame.grid(row=0,column=0,sticky="nsew")
+        frame.grid(row=0,column=0,sticky="nsew")
+
+        frame = RunPage(self.container, self)
+        self.frames["RunPage"] = frame
+
+        frame.grid(row=0,column=0,sticky="nsew")
 
         # Set the starting page
-        self.show_frame(MainPage)
+        self.show_frame("MainPage")
 
     def show_frame(self, cont):
 
@@ -93,6 +96,13 @@ class pgsIDEApp(tk.Tk):
     def quit(self):
         self.destroy()
 
+    def get_code(self):
+        return self.frames["MainPage"].textArea.get("1.0",tk.END)
+
+    def run(self):
+        self.show_frame("RunPage")
+        self.frames["RunPage"].run(self.get_code())
+
 class MainPage(tk.Frame):
 
     '''
@@ -108,6 +118,8 @@ class MainPage(tk.Frame):
 
         self.parent = parent
         self.controller = controller
+
+        self.name = "MainPage"
 
         # Add the content
         
@@ -137,9 +149,7 @@ class MainPage(tk.Frame):
 
         # Create a 'run' menu
         self.runMenu = tk.Menu(self.menubar)
-        self.runMenu.add_command(label="Run Script", command=
-                            lambda: self.controller.show_frame(RunPage)
-                            )
+        self.runMenu.add_command(label="Run Script", command=self.controller.run)
 
         # Create a 'help' menu
         self.helpMenu = tk.Menu(self.menubar)
@@ -149,65 +159,6 @@ class MainPage(tk.Frame):
         self.menubar.add_cascade(label="File", menu=self.fileMenu)
         self.menubar.add_cascade(label="Run", menu=self.runMenu)
         self.menubar.add_cascade(label="Help", menu=self.helpMenu)
-
-class RunPage(tk.Frame):
-
-    '''
-    This is all the content on the RunPage
-    '''
-
-    def __init__(self, parent, controller):
-
-        ''' Contstructor '''
-
-        # Call the parents constructor
-        tk.Frame.__init__(self, parent)
-
-        self.parent = parent
-        self.controller = controller
-
-        # Add the content
-
-        # Create an output text box
-        self.outBox = ScrolledText(self)
-        self.outBox.pack(side="top")
-        self.outBox.config(state=tk.DISABLED)
-
-        # Just a label
-        self.errorBoxLabel = tk.Label(self, text="Error Messages:")
-        self.errorBoxLabel.pack()
-        
-        # Create an error box
-        self.errorBox = ScrolledText(self)
-        self.errorBox.pack(side="top")
-        self.errorBox.config(state=tk.DISABLED)
-
-        # Create the menu
-        self.menubar = tk.Menu(self.controller)
-        self.set_menubar = lambda: self.controller.config(menu=self.menubar)
-
-       # Create a 'file' menu
-        self.fileMenu = tk.Menu(self.menubar)
-        self.fileMenu.add_command(label="New", command=self.controller.create_new)
-        self.fileMenu.add_command(label="Open", command=
-                             lambda: self.controller.create_new(self.controller.open_file())
-                             )
-        self.fileMenu.add_command(label="Quit", command=self.controller.quit)
-
-        # Create a 'debug' menu
-        self.debugMenu = tk.Menu(self.menubar)
-        self.debugMenu.add_command(label="Show parsed code", command=None)
-
-        # Create a 'window' menu
-        self.windowMenu = tk.Menu(self.menubar)
-        self.windowMenu.add_command(label="Return To Editor", command=
-                               lambda: self.controller.show_frame(MainPage)
-                               )
-
-        # Add the file menu to the window
-        self.menubar.add_cascade(label="File", menu=self.fileMenu)
-        self.menubar.add_cascade(label="Debug", menu=self.debugMenu)
-        self.menubar.add_cascade(label="Window", menu=self.windowMenu) 
     
 app = pgsIDEApp()
 app.mainloop()
