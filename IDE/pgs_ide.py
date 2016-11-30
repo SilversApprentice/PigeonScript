@@ -1,8 +1,11 @@
 import tkinter as tk
 from tkinter.scrolledtext import ScrolledText
 import tkinter.filedialog as tkfd
-from pathlib2 import Path
-from interpreter import RunPage
+try:
+    from pathlib2 import Path
+except:
+    from modules.pathlib2 import Path
+from modules.interpreter import RunPage
 
 class pgsIDEApp(tk.Tk):
 
